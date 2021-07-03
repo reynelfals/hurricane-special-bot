@@ -1,24 +1,20 @@
 from telegram.ext import *
 from handlers import *
 import config
-# Run the programme
+
 if __name__ == '__main__':
+    logging.basicConfig(filename='hurricane_special_bot.log', level=logging.INFO, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     updater = Updater(config.API_KEY, use_context=True)
-    dp = updater.dispatcher
+    dispatcher = updater.dispatcher
 
-    # Commands
-    dp.add_handler(CommandHandler('hurricane', start_command))
-    dp.add_handler(CommandHandler('help', help_command))
-    dp.add_handler(CommandHandler('huracan', custom_command))
-    dp.add_handler(CommandHandler('mensaje', key_message_sp))
-    dp.add_handler(CommandHandler('message', key_message))
+    dispatcher.add_handler(CommandHandler('help', help_command))
 
-    # # Messages
-    # dp.add_handler(MessageHandler(Filters.text, handle_message))
+    dispatcher.add_handler(CommandHandler('hurricane', hurricane_map_command))
+    dispatcher.add_handler(CommandHandler('huracan', hurricane_map_command_sp))
+    dispatcher.add_handler(CommandHandler('mensaje', key_message_sp))
+    dispatcher.add_handler(CommandHandler('message', key_message))
 
-    # Log all errors
-    dp.add_error_handler(error)
+    dispatcher.add_error_handler(error)
 
-    # Run the bot
     updater.start_polling(1.0)
     updater.idle()
