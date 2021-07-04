@@ -1,4 +1,4 @@
-from telegram.ext import *
+
 from handlers import *
 import config
 
@@ -13,6 +13,8 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler('huracan', hurricane_map_command_sp))
     dispatcher.add_handler(CommandHandler('mensaje', key_message_sp))
     dispatcher.add_handler(CommandHandler('message', key_message))
+    dispatcher.add_handler(CommandHandler('satellite', satellite))
+    dispatcher.add_handler(CommandHandler('animated', animated))
 
     dispatcher.add_error_handler(error)
 
