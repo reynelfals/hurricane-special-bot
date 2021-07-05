@@ -12,13 +12,13 @@ command_keyboard = [
 ]
 
 command_keyboard_sp = [
-    [KeyboardButton('/hurcan'), KeyboardButton('/mensaje')],
+    [KeyboardButton('/huracan'), KeyboardButton('/mensaje')],
     [KeyboardButton('/satellite'), KeyboardButton('/animated')],
     [KeyboardButton('/help')]
 ]
 
 markup = ReplyKeyboardMarkup(command_keyboard, one_time_keyboard=True)
-markup_sp = ReplyKeyboardMarkup(command_keyboard, one_time_keyboard=True)
+markup_sp = ReplyKeyboardMarkup(command_keyboard_sp, one_time_keyboard=True)
 
 
 def hurricane_map_command(update, context):
