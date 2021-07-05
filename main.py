@@ -16,6 +16,7 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler('message', key_message))
     dispatcher.add_handler(CommandHandler('satellite', satellite))
     dispatcher.add_handler(CommandHandler('animated', animated))
+    dispatcher.add_handler(CommandHandler('animatedlite', animatedlite))
 
     dispatcher.add_error_handler(error)
 
