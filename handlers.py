@@ -11,7 +11,14 @@ command_keyboard = [
     [KeyboardButton('/help')]
 ]
 
+command_keyboard_sp = [
+    [KeyboardButton('/huracan'), KeyboardButton('/mensaje')],
+    [KeyboardButton('/satellite'), KeyboardButton('/animated')],
+    [KeyboardButton('/help')]
+]
+
 markup = ReplyKeyboardMarkup(command_keyboard, one_time_keyboard=True)
+markup_sp = ReplyKeyboardMarkup(command_keyboard_sp, one_time_keyboard=True)
 
 
 def hurricane_map_command(update, context):
@@ -22,7 +29,7 @@ def hurricane_map_command(update, context):
         bot = telegram.Bot(token=config.API_KEY)
         bot.send_photo(update.message.chat.id, r.raw, reply_markup=markup)
 
-        update.message.reply_text('The map ^')
+        update.message.reply_text('The map ^', reply_markup=markup)
     else:
         logging.error(f'Error in request code: {r.status_code}')
 
@@ -43,9 +50,9 @@ def hurricane_map_command_sp(update, context):
                      stream=True)
     if r.status_code == 200:
         bot = telegram.Bot(token=config.API_KEY)
-        bot.send_photo(update.message.chat.id, r.raw, reply_markup=markup)
+        bot.send_photo(update.message.chat.id, r.raw, reply_markup=markup_sp)
 
-        update.message.reply_text('El mapa ^')
+        update.message.reply_text('El mapa ^', reply_markup=markup_sp)
     else:
         logging.error(f'Error in request code: {r.status_code}')
 
@@ -55,7 +62,7 @@ def key_message(update, context):
     if r.status_code == 200:
         bot = telegram.Bot(token=config.API_KEY)
         bot.send_photo(update.message.chat.id, r.raw)
-        update.message.reply_text('Key Message ^')
+        update.message.reply_text('Key Message ^', reply_markup=markup)
     else:
         logging.error(f'Error in request code: {r.status_code}')
 
@@ -64,8 +71,8 @@ def key_message_sp(update, context):
     logging.info(f'User {update.message.chat.first_name}, id {update.message.chat.id}, calling mensaje command')
     bot = telegram.Bot(token=config.API_KEY)
     bot.send_photo(chat_id=update.message.chat.id,
-                   photo="https://www.nhc.noaa.gov/storm_graphics/AT05/refresh/AL052021_spanish_key_messages+png/", reply_markup=markup)
-    update.message.reply_text('Mensaje clave ^')
+                   photo="https://www.nhc.noaa.gov/storm_graphics/AT05/refresh/AL052021_spanish_key_messages+png/", reply_markup=markup_sp)
+    update.message.reply_text('Mensaje clave ^', reply_markup=markup_sp)
 
 #https://cdn.star.nesdis.noaa.gov/FLOATER/data/AL052021/GEOCOLOR/latest.jpg
 #https://cdn.star.nesdis.noaa.gov/FLOATER/data/AL052021/GEOCOLOR/500x500.jpg
@@ -88,7 +95,7 @@ def satellite(update: Update, context: CallbackContext):
 
     if r.status_code == 200:
         context.bot.send_photo(update.message.chat.id, r.raw, reply_markup=markup)
-        update.message.reply_text(f'Satellite {mode} resolution ^')
+        update.message.reply_text(f'Satellite {mode} resolution ^', reply_markup=markup)
     else:
         logging.error(f'Error in request code: {r.status_code}')
 
@@ -96,7 +103,7 @@ def satellite(update: Update, context: CallbackContext):
 def animated(update, context):
     logging.info(f'User {update.message.chat.first_name}, id {update.message.chat.id}, calling animated command')
     context.bot.send_document(chat_id=update.message.chat.id, document=open('./data/resized500_500.gif', 'rb'), reply_markup=markup)
-    update.message.reply_text('Satellite Animation^')
+    update.message.reply_text('Satellite Animation^', reply_markup=markup)
 
 
 def error(update, context):
