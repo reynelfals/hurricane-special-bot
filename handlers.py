@@ -97,7 +97,7 @@ def key_message_sp(update, context):
 #https://cdn.star.nesdis.noaa.gov/FLOATER/data/AL052021/GEOCOLOR/500x500.jpg
 
 def satellite(update: Update, context: CallbackContext):
-    logging.info(f'User {update.message.chat.first_name}, id {update.message.chat.id}, calling satellite command')
+
     modes={'low':"https://cdn.star.nesdis.noaa.gov/FLOATER/data/AL052021/GEOCOLOR/500x500.jpg",
            'high': "https://cdn.star.nesdis.noaa.gov/FLOATER/data/AL052021/GEOCOLOR/latest.jpg",
            'gif': "data/resized.gif",
@@ -110,6 +110,8 @@ def satellite(update: Update, context: CallbackContext):
         return animated(update,context)
     if mode == 'lite':
         return animatedlite(update,context)
+
+    logging.info(f'User {update.message.chat.first_name}, id {update.message.chat.id}, calling satellite {mode} command')
 
     url = modes.get(mode, 'low')
 
@@ -128,7 +130,7 @@ def animated(update, context):
     update.message.reply_text('Satellite Animation^. For a lightweight alternative use /animatedlite', reply_markup=markup)
 
 def animatedlite(update, context):
-    logging.info(f'User {update.message.chat.first_name}, id {update.message.chat.id}, calling animated command')
+    logging.info(f'User {update.message.chat.first_name}, id {update.message.chat.id}, calling animatedlite command')
     context.bot.send_document(chat_id=update.message.chat.id, document=open('./data/resized500_500_gray.gif', 'rb'), reply_markup=markup)
     update.message.reply_text('Satellite Animation Gray Scale^. Check /animated for a colored version.', reply_markup=markup)
 
