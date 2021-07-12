@@ -17,6 +17,13 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler('satellite', satellite))
     dispatcher.add_handler(CommandHandler('animated', animated))
     dispatcher.add_handler(CommandHandler('animatedlite', animatedlite))
+    dispatcher.add_handler(CommandHandler('sandwich', sandwich))
+
+    dispatcher.add_handler(CommandHandler('geturls', geturls))
+    dispatcher.add_handler(CommandHandler('seturl', seturl))
+    dispatcher.add_handler(CommandHandler('setactive', setactive))
+    dispatcher.add_handler(CommandHandler('setinactive', setinactive))
+
 
     dispatcher.add_error_handler(error)
 
