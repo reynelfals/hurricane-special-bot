@@ -10,13 +10,13 @@ from helpers import *
 command_keyboard = [
     [KeyboardButton('/animatedlite'),  KeyboardButton('/animated')],
     [KeyboardButton('/satellite'), KeyboardButton('/hurricane')],
-    [KeyboardButton('/message'), KeyboardButton('/help')]
+    [KeyboardButton('/sandwich'), KeyboardButton('/message')]
 ]
 
 command_keyboard_sp = [
     [ KeyboardButton('/animatedlite'),  KeyboardButton('/animated')],
     [KeyboardButton('/satellite'), KeyboardButton('/huracan')],
-    [KeyboardButton('/mensaje'), KeyboardButton('/help')]
+    [KeyboardButton('/sandwich'), KeyboardButton('/mensaje')]
 ]
 
 markup = ReplyKeyboardMarkup(command_keyboard, one_time_keyboard=True, selective=True)
@@ -38,6 +38,8 @@ def start(update, context):
                                    '`/animated` or `/satellite gif`     \- 500x500 pixels satellite clip\.\n\n'
                                    
                                    '`/animatedlite` or `/satellite lite`     \- 500x500 pixels gray satellite clip, lightweight\.\n\n'
+                                   
+                                   '`/sandwich`     \- 1000x1000 pixels sandwich clip\.\n\n'
                                    
                                    '`/hurricane` or `/huracan`          \- Probability cone\.\n\n'
                                    
@@ -80,6 +82,7 @@ def help_command(update, context):
     update.message.reply_text(text='Use the commands\n'
                               '`/animated` or `/satellite gif` \- Satellite Clip\.\n'
                               '`/animatedlite` or `/satellite lite` \- Gray Satellite Clip lightweight\.\n'
+                              '`/sandwich` \- Sandwich Clip\.\n'
                               '`/hurricane` or `/huracan` \- Probability Cone\.\n'
                               '`/satellite` or `/satellite low` \- 500x500 Satellite Image\.\n'
                               '`/satellite high` \- 1000x1000 Satellite Image\.\n'
@@ -197,6 +200,7 @@ def animatedlite(update, context):
                               reply_markup=markup)
 
 def sandwich(update, context):
+    logging.info(f'User {update.message.chat.first_name}, id {update.message.chat.id}, calling sandwich command')
     (proceed, yaml_dict) = isactive()
     if not proceed:
         update.message.reply_text('No cyclone activity expected in the next 48 hours.',
