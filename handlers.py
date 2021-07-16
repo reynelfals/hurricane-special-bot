@@ -69,9 +69,9 @@ def hurricane_map_command(update, context):
                      stream=True)
     if r.status_code == 200:
         context.bot.send_photo(update.message.chat.id, r.raw,
-                               reply_markup=markup)
+                               reply_markup=markup, caption='Cone of Uncertainty')
 
-        update.message.reply_text('The map ^. Maybe you want to check /satellite also.',
+        update.message.reply_text('Maybe you want to check /satellite also.',
                                   reply_markup=markup)
     else:
         logging.error(f'Error in request code: {r.status_code}')
@@ -168,8 +168,8 @@ def satellite(update: Update, context: CallbackContext):
 
     if r.status_code == 200:
         context.bot.send_photo(update.message.chat.id, r.raw,
-                               reply_markup=markup)
-        update.message.reply_text(f'Satellite {mode} resolution ^ (Change resolution using arguments: /satellite low or /satellite high)',
+                               reply_markup=markup, caption=f'Satellite {mode} resolution')
+        update.message.reply_text('Change resolution using arguments: /satellite low or /satellite high',
                                   reply_markup=markup)
     else:
         logging.error(f'Error in request code: {r.status_code}')
@@ -183,8 +183,8 @@ def animated(update, context):
                                   reply_markup=markup)
         return
     context.bot.send_document(chat_id=update.message.chat.id, document=open('./data/resized500_500.gif', 'rb'),
-                              reply_markup=markup)
-    update.message.reply_text('Satellite Animation^. For a lightweight alternative use /animatedlite',
+                              reply_markup=markup, caption='Satellite Animation')
+    update.message.reply_text('For a lightweight alternative use /animatedlite',
                               reply_markup=markup)
 
 def animatedlite(update, context):
@@ -195,8 +195,8 @@ def animatedlite(update, context):
                                   reply_markup=markup)
         return
     context.bot.send_document(chat_id=update.message.chat.id, document=open('./data/resized500_500_gray.gif', 'rb'),
-                              reply_markup=markup)
-    update.message.reply_text('Satellite Animation Gray Scale^. Check /animated for a colored version.',
+                              reply_markup=markup, caption='Satellite Animation Gray Scale')
+    update.message.reply_text('Check /animated for a colored version.',
                               reply_markup=markup)
 
 def sandwich(update, context):
