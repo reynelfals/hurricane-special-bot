@@ -115,7 +115,11 @@ def key_message(update, context):
         update.message.reply_text('No cyclone activity expected in the next 48 hours.',
                                   reply_markup=markup)
         return
-    r = requests.get(yaml_dict.get("key_message").get("url"), stream=True)
+    if yaml_dict.get("key_message") is None:
+        update.message.reply_text('I am sorry. No data for key message.',
+                                  reply_markup=markup)
+        return
+    r = requests.get(yaml_dict.get("key_message").get("url",""), stream=True)
     if r.status_code == 200:
         context.bot.send_photo(update.message.chat.id, r.raw)
         update.message.reply_text('Key Message ^ (Para espagnol /mensaje)',
@@ -129,6 +133,10 @@ def key_message_sp(update, context):
     (proceed, yaml_dict) = isactive()
     if not proceed:
         update.message.reply_text('No cyclone activity expected in the next 48 hours.',
+                                  reply_markup=markup)
+        return
+    if yaml_dict.get("key_message_sp") is None:
+        update.message.reply_text('Lo siento. No hay datos de mensaje clave.',
                                   reply_markup=markup)
         return
     context.bot.send_photo(chat_id=update.message.chat.id,
@@ -182,7 +190,7 @@ def animated(update, context):
         update.message.reply_text('No cyclone activity expected in the next 48 hours.',
                                   reply_markup=markup)
         return
-    context.bot.send_document(chat_id=update.message.chat.id, document=open('./data/resized500_500.gif', 'rb'),
+    context.bot.send_document(chat_id=update.message.chat.id, document=open('./data/animated_resized500_500.gif', 'rb'),
                               reply_markup=markup, caption='Satellite Animation')
     update.message.reply_text('For a lightweight alternative use /animatedlite',
                               reply_markup=markup)
@@ -194,7 +202,7 @@ def animatedlite(update, context):
         update.message.reply_text('No cyclone activity expected in the next 48 hours.',
                                   reply_markup=markup)
         return
-    context.bot.send_document(chat_id=update.message.chat.id, document=open('./data/resized500_500_gray.gif', 'rb'),
+    context.bot.send_document(chat_id=update.message.chat.id, document=open('./data/animated_resized500_500_gray.gif', 'rb'),
                               reply_markup=markup, caption='Satellite Animation Gray Scale')
     update.message.reply_text('Check /animated for a colored version.',
                               reply_markup=markup)
@@ -206,9 +214,10 @@ def sandwich(update, context):
         update.message.reply_text('No cyclone activity expected in the next 48 hours.',
                                   reply_markup=markup)
         return
-    r = requests.get(yaml_dict.get("sandwich").get("url"), stream=True)
     context.bot.send_document(chat_id=update.message.chat.id,
-                              document=r.raw,
+                              document=open('./data/sandwich_resized500_500.gif', 'rb'),
+                              reply_markup=markup, caption='Infrared and Visual Spectrum Clip')
+    update.message.reply_text('Check /animated for only visual spectrum clip version.',
                               reply_markup=markup)
 
 
