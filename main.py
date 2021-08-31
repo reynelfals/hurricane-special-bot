@@ -18,6 +18,7 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler('animated', animated))
     dispatcher.add_handler(CommandHandler('animatedlite', animatedlite))
     dispatcher.add_handler(CommandHandler('sandwich', sandwich))
+    dispatcher.add_handler(CommandHandler('winds', winds))
 
     dispatcher.add_handler(CommandHandler('geturls', geturls))
     dispatcher.add_handler(CommandHandler('seturl', seturl))
@@ -27,5 +28,5 @@ if __name__ == '__main__':
 
     dispatcher.add_error_handler(error)
 
-    updater.start_polling(1.0)
+    updater.start_polling()
     updater.idle()

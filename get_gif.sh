@@ -1,4 +1,5 @@
 #!/bin/bash
+cd "${BASH_SOURCE%/*}/" || exit
 curl $1 >./data/$2_temp.gif
 if [ -f $2.gif ]
 then

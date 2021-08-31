@@ -10,13 +10,15 @@ from helpers import *
 command_keyboard = [
     [KeyboardButton('/animatedlite'),  KeyboardButton('/animated')],
     [KeyboardButton('/satellite'), KeyboardButton('/hurricane')],
-    [KeyboardButton('/sandwich'), KeyboardButton('/message')]
+    [KeyboardButton('/sandwich'), KeyboardButton('/message')],
+    [KeyboardButton('/winds'), KeyboardButton('/help')]
 ]
 
 command_keyboard_sp = [
     [ KeyboardButton('/animatedlite'),  KeyboardButton('/animated')],
     [KeyboardButton('/satellite'), KeyboardButton('/huracan')],
-    [KeyboardButton('/sandwich'), KeyboardButton('/mensaje')]
+    [KeyboardButton('/sandwich'), KeyboardButton('/mensaje')],
+    [KeyboardButton('/winds'), KeyboardButton('/help')]
 ]
 
 markup = ReplyKeyboardMarkup(command_keyboard, one_time_keyboard=True, selective=True)
@@ -115,11 +117,11 @@ def key_message(update, context):
         update.message.reply_text('No cyclone activity expected in the next 48 hours.',
                                   reply_markup=markup)
         return
-    if yaml_dict.get("key_message") is None:
+    if yaml_dict.get("message") is None:
         update.message.reply_text('I am sorry. No data for key message.',
                                   reply_markup=markup)
         return
-    r = requests.get(yaml_dict.get("key_message").get("url",""), stream=True)
+    r = requests.get(yaml_dict.get("message").get("url",""), stream=True)
     if r.status_code == 200:
         context.bot.send_photo(update.message.chat.id, r.raw)
         update.message.reply_text('Key Message ^ (Para espagnol /mensaje)',
@@ -135,15 +137,19 @@ def key_message_sp(update, context):
         update.message.reply_text('No cyclone activity expected in the next 48 hours.',
                                   reply_markup=markup)
         return
-    if yaml_dict.get("key_message_sp") is None:
+    if yaml_dict.get("mensaje") is None:
         update.message.reply_text('Lo siento. No hay datos de mensaje clave.',
                                   reply_markup=markup)
         return
-    context.bot.send_photo(chat_id=update.message.chat.id,
-                   photo=yaml_dict.get("key_message_sp").get("url"),
-                           reply_markup=markup_sp)
-    update.message.reply_text('Mensaje clave ^ (For english /message)',
+    r = requests.get(yaml_dict.get("mensaje").get("url",""), stream=True)
+    if r.status_code == 200:
+        context.bot.send_photo(update.message.chat.id, r.raw)
+
+        update.message.reply_text('Mensaje clave ^ (For english /message)',
                               reply_markup=markup_sp)
+    else:
+        logging.error(f'Error in request code: {r.status_code}')
+
 
 #https://cdn.star.nesdis.noaa.gov/FLOATER/data/AL052021/GEOCOLOR/latest.jpg
 #https://cdn.star.nesdis.noaa.gov/FLOATER/data/AL052021/GEOCOLOR/500x500.jpg
@@ -219,6 +225,26 @@ def sandwich(update, context):
                               reply_markup=markup, caption='Infrared and Visual Spectrum Clip')
     update.message.reply_text('Check /animated for only visual spectrum clip version.',
                               reply_markup=markup)
+
+def winds(update, context):
+
+    logging.info(f'User {update.message.chat.first_name}, id {update.message.chat.id}, calling hurricane command')
+    (proceed, yaml_dict) = isactive()
+    if not proceed:
+        update.message.reply_text('No cyclone activity expected in the next 48 hours.',
+                                  reply_markup=markup)
+        return
+    r = requests.get(yaml_dict.get("winds").get("url"),
+                     stream=True)
+    if r.status_code == 200:
+        context.bot.send_photo(update.message.chat.id, r.raw,
+                               reply_markup=markup, caption='Arrival Time of Winds')
+
+        update.message.reply_text('Maybe you want to check /hurricane also.',
+                                  reply_markup=markup)
+    else:
+        logging.error(f'Error in request code: {r.status_code}')
+
 
 
 def geturls(update, context):
