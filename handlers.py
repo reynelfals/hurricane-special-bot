@@ -126,8 +126,12 @@ def key_message(update, context):
         context.bot.send_photo(update.message.chat.id, r.raw)
         update.message.reply_text('Key Message ^ (Para espagnol /mensaje)',
                                   reply_markup=markup)
+    elif r.status_code == 404:
+        update.message.reply_text('Key Message Not Present (Para espagnol /mensaje)', reply_markup=markup)
+
     else:
         logging.error(f'Error in request code: {r.status_code}')
+
 
 
 def key_message_sp(update, context):
@@ -147,6 +151,9 @@ def key_message_sp(update, context):
 
         update.message.reply_text('Mensaje clave ^ (For english /message)',
                               reply_markup=markup_sp)
+    elif r.status_code == 404:
+        update.message.reply_text('Mensaje clave no presente (For english /message)', reply_markup=markup_sp)
+
     else:
         logging.error(f'Error in request code: {r.status_code}')
 
